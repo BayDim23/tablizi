@@ -1,13 +1,10 @@
-#3. Необходимо спарсить цены на диваны с сайта divan.ru в csv файл, обработать данные,
-# найти среднюю цену и вывести ее, а также сделать гистограмму цен на диваны
-
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import matplotlib.pyplot as plt
 
 # URL сайта для парсинга
-url = 'https://www.divan.ru/category/divany-i-kresla'
+url = 'https://moscow.drom.ru/mercedes-benz/e-class/year-2024/used/'
 
 
 # Функция для парсинга цен на диваны
@@ -17,8 +14,8 @@ def parse_divan_prices(url):
 
     # Найдите все элементы с ценами
     prices = []
-    for price_tag in soup.find_all('span', {"data-testid": "price"}):
-        price = price_tag.text.strip().replace('руб', '').replace(' ', '')
+    for price_tag in soup.find_all('span', {"data-ftid": "bull_price"}):
+        price = price_tag.text.strip().replace('₽', '').replace('\xa0', '')
         prices.append(float(price))
 
     return prices
@@ -44,4 +41,3 @@ plt.xlabel('Цена (₽)')
 plt.ylabel('Количество')
 plt.grid(axis='y', alpha=0.75)
 plt.show()
-
